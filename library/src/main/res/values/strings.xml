@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FloMenu</string>
+
+    <!-- DEFAULT VALUES -->
+    <string name="flo_sub_menu_label_default_text">Please set a text.</string>
+
+    <!-- TEST VALUES -->
+    <string name="FloMenuEntry_0">Do your chores</string>
+</resources>

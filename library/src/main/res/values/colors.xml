@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009da8</color>
+    <color name="colorPrimaryDark">#007a8c</color>
+    <color name="colorAccent">#ff8a00</color>
+    <color name="colorAccentPressed">#d84315</color>
+    <color name="colorTextLabel">#ccc</color>
+    <color name="colorTextLabelPressed">#fff</color>
+    <color name="colorTextLabelBackground">#212121</color>
+    <color name="colorTextLabelBackgroundPressed">#333333</color>
+    <color name="colorButtonRippleLight">#ddd</color>
+    <color name="colorButtonRippleDark">#212121</color>
+</resources>

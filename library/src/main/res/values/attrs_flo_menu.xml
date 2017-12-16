@@ -1,0 +1,13 @@
+<resources>
+    <declare-styleable name="FloMenu">
+        <attr name="M_drawable" format="reference" />
+        <attr name="M_drawable_toggled" format="reference" />
+        <attr name="M_color_button_background" format="color" />
+        <attr name="M_color_button_background_ripple" format="color" />
+        <attr name="M_text_label" format="string" />
+        <attr name="M_color_label_background" format="color" />
+        <attr name="M_color_label_background_pressed" format="color" />
+        <attr name="M_color_text_label" format="color" />
+        <attr name="M_color_text_label_pressed" format="color" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom|end"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <FrameLayout
+        android:id="@+id/FBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorPrimary"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/FloSubMenuRoot"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="19dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="bottom|end"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.oliverjanoschek.flomenu.components.FloMenuRoot
+        android:id="@+id/FMR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:layout_marginEnd="19dp"
+        android:clickable="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:focusable="true"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</android.support.constraint.ConstraintLayout>

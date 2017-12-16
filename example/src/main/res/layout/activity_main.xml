@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context="com.oliverjanoschek.flomenuexample.MainActivity">
+
+    <com.oliverjanoschek.flomenu.components.FloMenu
+        android:id="@+id/FM"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:M_color_button_background="@color/colorAccent"
+        app:M_color_button_background_ripple="@color/colorAccentPressed"
+        app:M_color_label_background="@color/colorTextLabelBackground"
+        app:M_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+        app:M_color_text_label="@color/colorTextLabel"
+        app:M_color_text_label_pressed="@color/colorTextLabelPressed"
+        app:M_drawable="@drawable/ic_action_default"
+        app:M_drawable_toggled="@drawable/ic_action_add"
+        app:M_text_label="FloMenu is awesome">
+
+        <com.oliverjanoschek.flomenu.components.FloSubMenu
+            android:id="@+id/FSM_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="true"
+            app:S_color_button_background="@color/colorPrimaryDark"
+            app:S_color_button_background_ripple="@color/colorButtonRippleLight"
+            app:S_color_label_background="@color/colorTextLabelBackground"
+            app:S_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+            app:S_color_text_label="@color/colorTextLabel"
+            app:S_color_text_label_pressed="@color/colorTextLabelPressed"
+            app:S_drawable="?attr/actionModeCutDrawable"
+            app:S_text_label="@android:string/cut" />
+
+        <com.oliverjanoschek.flomenu.components.FloSubMenu
+            android:id="@+id/FSM_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="true"
+            app:S_color_button_background="@color/colorPrimaryDark"
+            app:S_color_button_background_ripple="@color/colorButtonRippleLight"
+            app:S_color_label_background="@color/colorTextLabelBackground"
+            app:S_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+            app:S_color_text_label="@color/colorTextLabel"
+            app:S_color_text_label_pressed="@color/colorTextLabelPressed"
+            app:S_drawable="?attr/actionModeCopyDrawable"
+            app:S_text_label="@android:string/copy" />
+
+        <com.oliverjanoschek.flomenu.components.FloSubMenu
+            android:id="@+id/FSM_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="true"
+            app:S_color_button_background="@color/colorPrimaryDark"
+            app:S_color_button_background_ripple="@color/colorButtonRippleLight"
+            app:S_color_label_background="@color/colorTextLabelBackground"
+            app:S_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+            app:S_color_text_label="@color/colorTextLabel"
+            app:S_color_text_label_pressed="@color/colorTextLabelPressed"
+            app:S_drawable="?attr/actionModePasteDrawable"
+            app:S_text_label="@android:string/paste" />
+
+    </com.oliverjanoschek.flomenu.components.FloMenu>
+
+</android.support.constraint.ConstraintLayout>
