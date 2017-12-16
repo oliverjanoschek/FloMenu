@@ -1,6 +1,7 @@
 package com.oliverjanoschek.flomenu.components
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -30,15 +31,19 @@ class FloMenu @JvmOverloads constructor(
             val buttonBackgroundColor = typedArray.getColor(R.styleable.FloMenu_M_color_button_background, ContextCompat.getColor(context, R.color.colorAccent))
             val buttonBackgroundRippleColor = typedArray.getColor(R.styleable.FloMenu_M_color_button_background_ripple, buttonBackgroundColor)
 
-            val textLabel = typedArray.getText(R.styleable.FloMenuRoot_R_text_label) ?: context.getText(R.string.flo_sub_menu_label_default_text)
-            val textLabelColor = typedArray.getColor(R.styleable.FloMenuRoot_R_color_text_label, ContextCompat.getColor(context, R.color.colorTextLabel))
-            val textLabelColorPressed = typedArray.getColor(R.styleable.FloMenuRoot_R_color_text_label, ContextCompat.getColor(context,R.color.colorTextLabelPressed))
+            val textLabel = typedArray.getText(R.styleable.FloMenu_M_text_label) ?: context.getText(R.string.flo_sub_menu_label_default_text)
+            val textLabelColor = typedArray.getColor(R.styleable.FloMenu_M_color_text_label, ContextCompat.getColor(context, R.color.colorTextLabel))
+            val textLabelColorPressed = typedArray.getColor(R.styleable.FloMenu_M_color_text_label, ContextCompat.getColor(context,R.color.colorTextLabelPressed))
 
-            val cardBackgroundColor = typedArray.getColor(R.styleable.FloMenuRoot_R_color_label_background, ContextCompat.getColor(context, R.color.colorTextLabelBackground))
-            val cardBackgroundPressedColor = typedArray.getColor(R.styleable.FloMenuRoot_R_color_label_background_pressed, ContextCompat.getColor(context, R.color.colorTextLabelBackgroundPressed))
+            val cardBackgroundColor = typedArray.getColor(R.styleable.FloMenu_M_color_label_background, ContextCompat.getColor(context, R.color.colorTextLabelBackground))
+            val cardBackgroundPressedColor = typedArray.getColor(R.styleable.FloMenu_M_color_label_background_pressed, ContextCompat.getColor(context, R.color.colorTextLabelBackgroundPressed))
 
-            val fabDrawable = typedArray.getResourceId(R.styleable.FloMenuRoot_R_drawable, R.drawable.ic_action_default)
-            val fabDrawableToggled = typedArray.getResourceId(R.styleable.FloMenuRoot_R_drawable_toggled, R.drawable.ic_action_default)
+            val fabDrawable = typedArray.getResourceId(R.styleable.FloMenu_M_drawable, R.drawable.ic_action_default)
+            val fabDrawableToggled = typedArray.getResourceId(R.styleable.FloMenu_M_drawable_toggled, R.drawable.ic_action_default)
+
+            val menuBackgroundColor = typedArray.getColor(R.styleable.FloMenu_M_color_menu_background,ContextCompat.getColor(context, R.color.colorPrimary))
+
+            FBG.backgroundTintList = ColorStateList.valueOf(menuBackgroundColor)
 
             typedArray.recycle()
 

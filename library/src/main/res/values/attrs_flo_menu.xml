@@ -9,5 +9,6 @@
         <attr name="M_color_label_background_pressed" format="color" />
         <attr name="M_color_text_label" format="color" />
         <attr name="M_color_text_label_pressed" format="color" />
+        <attr name="M_color_menu_background" format="color" />
     </declare-styleable>
 </resources>

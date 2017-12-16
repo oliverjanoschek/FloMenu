@@ -19,6 +19,7 @@
         app:M_color_button_background_ripple="@color/colorAccentPressed"
         app:M_color_label_background="@color/colorTextLabelBackground"
         app:M_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+        app:M_color_menu_background="@color/colorPrimary"
         app:M_color_text_label="@color/colorTextLabel"
         app:M_color_text_label_pressed="@color/colorTextLabelPressed"
         app:M_drawable="@drawable/ic_action_default"
