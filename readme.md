@@ -29,9 +29,9 @@ dependencies {
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Usage
+## Usage
 
-#### Adding the base menu
+### Adding the base menu
 
 To add the base menu containing the main FAB and a background that fades in & out when the menu is toggled, just add these lines to your layout XML
 
@@ -45,9 +45,15 @@ To add the base menu containing the main FAB and a background that fades in & ou
         android:clipToPadding="false">
     </com.oliverjanoschek.flomenu.components.FloMenu>
 ```
-#### Populating the menu with sub menu FABs
+### Populating the menu with sub menu FABs
 
-The simplest way to add sub menu items to FloMenu is to use the FloSubMenu component as such:
+There are two very straightforward, simple ways to add sub menu FABs to FloMenu. You can either choose to add submenu items in your layout XMLs and add onClickListeners afterwards, or simply add them in one step in code. 
+
+This library uses lambda functions to make it easy to set click listeners for all FABs in the menu.
+
+#### via XML
+
+##### 1. To add sub menu items to FloMenu via XML add the FloSubMenu custom view like this:
 
 ```XML
     <com.oliverjanoschek.flomenu.components.FloMenu
@@ -69,10 +75,78 @@ The simplest way to add sub menu items to FloMenu is to use the FloSubMenu compo
             
     </com.oliverjanoschek.flomenu.components.FloMenu>
 ```
+##### 2. Add OnClickListeners
 
-#### Custom attributes
+If you chose to add the sub menu items via layout XMLs, you will need to apply a onClickListener. FloMenu provides an efficient lambda style function to pass on the listener
 
-Both components offer a few custom attributes to style and customise your menu:
+```Kotlin
+       FM.createClickListener(FM.rootButton, {
+            when (FM.toggle) {
+                true -> { /* Do stuff */ }
+                false -> {/* Do even more stuff! */ }
+            }
+        })
+
+        FM.createClickListener(FSM_0, {
+          /* Do submenu stuff */
+        })
+        FM.createClickListener(FSM_1, {
+          /* Do submenu stuff */
+        })
+        FM.createClickListener(FSM_2, {
+          /* Do submenu stuff */
+        })
+```
+
+Both rootButton and toggle are public properties and enable easy access to the root FAB button as well as the current state of the menu
+
+#### Via code
+
+##### 1. Create a List of type \<SubMenuProperties\> with all your needed sub menu FABs
+```Kotlin
+    val fsmList = listOf(
+            SubMenuProperties(
+                    R.drawable.abc_ic_menu_cut_mtrl_alpha,
+                    R.color.colorAccent,
+                    R.color.colorButtonRippleLight,
+                    resources.getString(android.R.string.cut),
+                    R.color.colorTextLabel,
+                    R.color.colorTextLabelPressed,
+                    R.color.colorTextLabelBackground,
+                    R.color.colorTextLabelBackgroundPressed,
+                    { toast("SUB MENU 1 CLICKED!!!")}),
+            SubMenuProperties(
+                    R.drawable.abc_ic_menu_copy_mtrl_am_alpha,
+                    R.color.colorPrimary,
+                    R.color.colorButtonRippleDark,
+                    resources.getString(android.R.string.copy),
+                    R.color.colorTextLabel,
+                    R.color.colorTextLabelPressed,
+                    R.color.colorTextLabelBackground,
+                    R.color.colorTextLabelBackgroundPressed,
+                    {toast("SUB MENU 2 CLICKED!!!")}),
+            SubMenuProperties(
+                    R.drawable.abc_ic_menu_paste_mtrl_am_alpha,
+                    R.color.colorAccentPressed,
+                    R.color.colorAccent,
+                    resources.getString(android.R.string.paste),
+                    R.color.colorTextLabelBackground,
+                    R.color.colorTextLabelBackgroundPressed,
+                    R.color.colorTextLabel,
+                    R.color.colorTextLabelPressed,
+                    {toast("SUB MENU 3 CLICKED!!!")})
+            )
+```
+
+#### 2. Pass the list to FloMenu's createSubMenu() method
+
+```Kotlin
+    FM.createSubMenu(fsmList)
+```
+
+### Custom attributes
+
+FloMenu's custom components offer a few attributes to style and customise your menu:
 
 ```XML
         <com.oliverjanoschek.flomenu.components.FloMenu
@@ -111,31 +185,8 @@ Both components offer a few custom attributes to style and customise your menu:
             
     </com.oliverjanoschek.flomenu.components.FloMenu>
 ```
+
 see the example here to get a more indepth overview: [Example XML Layout](https://github.com/oliverjanoschek/FloMenu/blob/master/example/src/main/res/layout/activity_main.xml)
-
-#### OnClickListeners
-
-This library uses a lambda function to make it easy to set click listeners for all FABs in the menu. Here's an example how to use them:
-
-```Kotlin
-       FM.createClickListener(FM.rootButton, {
-            when (FM.toggle) {
-                true -> { /* Do stuff */ }
-                false -> {/* Do even more stuff! */ }
-            }
-        })
-
-        FM.createClickListener(FSM_0, {
-          /* Do submenu stuff */
-        })
-        FM.createClickListener(FSM_1, {
-          /* Do submenu stuff */
-        })
-        FM.createClickListener(FSM_2, {
-          /* Do submenu stuff */
-        })
-```
-Both rootButton and toggle are public properties and enable easy access to the root FAB button as well as the current state of the menu
 
 ## Built With
 
