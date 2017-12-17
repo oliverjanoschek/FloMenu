@@ -23,7 +23,7 @@ and:
 
 ```gradle
 dependencies {
-    implementation 'com.github.jitpack:android-example:1.0.1'
+    implementation 'com.github.jitpack:android-example:1.0.2'
 }
 ```
 
