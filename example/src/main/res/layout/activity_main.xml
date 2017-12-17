@@ -15,25 +15,31 @@
         android:clickable="false"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:elevation="4dp"
         app:M_color_button_background="@color/colorAccent"
         app:M_color_button_background_ripple="@color/colorAccentPressed"
         app:M_color_label_background="@color/colorTextLabelBackground"
         app:M_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+        app:M_color_menu_alpha="0.9"
         app:M_color_menu_background="@color/colorPrimary"
         app:M_color_text_label="@color/colorTextLabel"
         app:M_color_text_label_pressed="@color/colorTextLabelPressed"
         app:M_drawable="@drawable/ic_action_default"
         app:M_drawable_toggled="@drawable/ic_action_add"
-        app:M_text_label="FloMenu is awesome">
+        app:M_text_label="FloMenu is awesome"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.oliverjanoschek.flomenu.components.FloSubMenu
             android:id="@+id/FSM_0"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
             android:clickable="false"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:focusable="true"
             app:S_color_button_background="@color/colorPrimaryDark"
             app:S_color_button_background_ripple="@color/colorButtonRippleLight"
             app:S_color_label_background="@color/colorTextLabelBackground"
@@ -41,16 +47,17 @@
             app:S_color_text_label="@color/colorTextLabel"
             app:S_color_text_label_pressed="@color/colorTextLabelPressed"
             app:S_drawable="?attr/actionModeCutDrawable"
-            app:S_text_label="@android:string/cut" />
+            app:S_text_label="@android:string/cut"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.oliverjanoschek.flomenu.components.FloSubMenu
             android:id="@+id/FSM_1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
             android:clickable="false"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:focusable="true"
             app:S_color_button_background="@color/colorPrimaryDark"
             app:S_color_button_background_ripple="@color/colorButtonRippleLight"
             app:S_color_label_background="@color/colorTextLabelBackground"
@@ -58,16 +65,17 @@
             app:S_color_text_label="@color/colorTextLabel"
             app:S_color_text_label_pressed="@color/colorTextLabelPressed"
             app:S_drawable="?attr/actionModeCopyDrawable"
-            app:S_text_label="@android:string/copy" />
+            app:S_text_label="@android:string/copy"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.oliverjanoschek.flomenu.components.FloSubMenu
             android:id="@+id/FSM_2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
             android:clickable="false"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:focusable="true"
             app:S_color_button_background="@color/colorPrimaryDark"
             app:S_color_button_background_ripple="@color/colorButtonRippleLight"
             app:S_color_label_background="@color/colorTextLabelBackground"
@@ -75,8 +83,64 @@
             app:S_color_text_label="@color/colorTextLabel"
             app:S_color_text_label_pressed="@color/colorTextLabelPressed"
             app:S_drawable="?attr/actionModePasteDrawable"
-            app:S_text_label="@android:string/paste" />
+            app:S_text_label="@android:string/paste"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </com.oliverjanoschek.flomenu.components.FloMenu>
+
+    <Button
+        android:id="@+id/btn_style_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/root_button_style_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_style_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/root_button_style_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_style_1" />
+
+    <Button
+        android:id="@+id/btn_alpha_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/bg_alpha_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_style_2" />
+
+    <Button
+        android:id="@+id/btn_alpha_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/bg_alpha_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_alpha_1" />
+
+    <Button
+        android:id="@+id/btn_createmenu_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/create_new_menu_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_alpha_2" />
 
 </android.support.constraint.ConstraintLayout>

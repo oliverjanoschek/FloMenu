@@ -104,6 +104,16 @@ context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         setLabelBackgroundColor(labelTextColor, cardBackgroundColor)
     }
 
+    fun setRootButtonStyle(drawable: Int, drawableToggled: Int) {
+        if (drawable != 0){
+            fabDrawable = drawable
+        }
+        if (drawableToggled != 0) {
+            fabDrawableToggled = drawableToggled
+        }
+        floatingActionButtonRoot.setImageDrawable(ContextCompat.getDrawable(context, fabDrawable))
+    }
+
     fun toggleLabel(toggle:Boolean) {
 
         animationToggleIn.setAnimationListener( object : Animation.AnimationListener {

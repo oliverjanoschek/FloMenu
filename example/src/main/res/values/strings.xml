@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FloMenu Example</string>
+    <string name="root_button_style_1">Root Button Style Alternative</string>
+    <string name="root_button_style_2">Root Button Style Default</string>
+    <string name="bg_alpha_1">Root Button Alpha Alternative</string>
+    <string name="bg_alpha_2">Root Button Alpha Default</string>
+    <string name="sub_style_1">Sub Button Style Alternative</string>
+    <string name="sub_style_2">Sub Button Style Default</string>
+    <string name="create_new_menu_1">Create New FAB Menu</string>
 </resources>

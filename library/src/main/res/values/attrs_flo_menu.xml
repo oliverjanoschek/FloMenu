@@ -10,5 +10,6 @@
         <attr name="M_color_text_label" format="color" />
         <attr name="M_color_text_label_pressed" format="color" />
         <attr name="M_color_menu_background" format="color" />
+        <attr name="M_color_menu_alpha" format="float" />
     </declare-styleable>
 </resources>

@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import com.oliverjanoschek.flomenu.R
+import com.oliverjanoschek.flomenu.model.SubMenuProperties
 import kotlinx.android.synthetic.main.flo_menu.view.*
 import kotlinx.android.synthetic.main.flo_menu_root.view.*
 import kotlinx.android.synthetic.main.flo_sub_menu.view.*
@@ -19,6 +20,7 @@ class FloMenu @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     var toggle = false
+        private set
 
     init {
         LayoutInflater.from(context).inflate(R.layout.flo_menu, this, true)
@@ -43,7 +45,11 @@ class FloMenu @JvmOverloads constructor(
 
             val menuBackgroundColor = typedArray.getColor(R.styleable.FloMenu_M_color_menu_background,ContextCompat.getColor(context, R.color.colorPrimary))
 
+            val menuBackgroundAlpha = typedArray.getFloat(R.styleable.FloMenu_M_color_menu_alpha, 0.9f)
+
             FBG.backgroundTintList = ColorStateList.valueOf(menuBackgroundColor)
+
+            FBG.alpha = menuBackgroundAlpha
 
             typedArray.recycle()
 
@@ -87,14 +93,39 @@ class FloMenu @JvmOverloads constructor(
         }
     }
 
-    fun toggleFloMenu() {
-        when (toggle) {
-            false -> {
-                openFloMenu()
+    fun setRootButtonStyle(drawable:Int = 0, drawableToggled:Int = 0) {
+        if ( drawable != 0 && drawableToggled != 0) {
+            FMR.setRootButtonStyle(drawable, drawableToggled)
+        }
+    }
+
+    fun setMenuBGAlpha(alpha:Float = -1.0f) {
+        if ( alpha != -1.0f ) {
+            FBG.alpha = alpha
+            when (toggle) {
+                false -> {
+
+                }
+                true -> {
+                    FBG.visibility = View.GONE
+                }
             }
-            true -> {
-                closeFloMenu()
-            }
+        }
+    }
+
+    fun createSubMenu(list : List<SubMenuProperties>) {
+        contentView.removeAllViews()
+
+        for (submenu in list) {
+            val fsm = FloSubMenu(context)
+            fsm.clipChildren = false
+
+            fsm.setProperties(submenu)
+
+            createClickListener(fsm, submenu.onClickListenerLambda )
+
+            contentView.addView(fsm)
+            fsm.visibility = View.GONE
         }
     }
 
@@ -121,6 +152,17 @@ class FloMenu @JvmOverloads constructor(
                 }
             }
             else -> {}
+        }
+    }
+
+    private fun toggleFloMenu() {
+        when (toggle) {
+            false -> {
+                openFloMenu()
+            }
+            true -> {
+                closeFloMenu()
+            }
         }
     }
 

@@ -3,13 +3,17 @@ package com.oliverjanoschek.flomenu.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Canvas
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import com.oliverjanoschek.flomenu.R
+import com.oliverjanoschek.flomenu.model.SubMenuProperties
+import com.oliverjanoschek.flomenu.util.TAG
 import kotlinx.android.synthetic.main.flo_sub_menu.view.*
 
 @SuppressLint("ResourceType")
@@ -33,8 +37,8 @@ class FloSubMenu @JvmOverloads constructor(
             val typedArray = context.obtainStyledAttributes(it,
                     R.styleable.FloSubMenu, 0, 0)
 
-            buttonBackgroundColor = typedArray.getColor(R.styleable.FloSubMenu_S_color_button_background, ContextCompat.getColor(context, R.color.colorAccent))
-            buttonBackgroundRippleColor = typedArray.getColor(R.styleable.FloSubMenu_S_color_button_background_ripple, buttonBackgroundColor)
+            buttonBackgroundColor = typedArray.getResourceId(R.styleable.FloSubMenu_S_color_button_background, R.color.colorAccent)
+            buttonBackgroundRippleColor = typedArray.getResourceId(R.styleable.FloSubMenu_S_color_button_background_ripple, buttonBackgroundColor)
             textLabelColor = typedArray.getColor(R.styleable.FloSubMenu_S_color_text_label, ContextCompat.getColor(context, R.color.colorTextLabel))
             textLabelColorPressed = typedArray.getColor(R.styleable.FloSubMenu_S_color_text_label_pressed, ContextCompat.getColor(context,R.color.colorTextLabelPressed))
             cardBackgroundColor = typedArray.getColor(R.styleable.FloSubMenu_S_color_label_background, ContextCompat.getColor(context, R.color.colorTextLabelBackground))
@@ -47,21 +51,14 @@ class FloSubMenu @JvmOverloads constructor(
             fabDrawable = R.styleable.FloSubMenu_S_drawable
             
             floatingActionButton.setImageDrawable(typedArray.getDrawable(fabDrawable))
-            floatingActionButton.backgroundTintList = ColorStateList.valueOf(buttonBackgroundColor)
-            floatingActionButton.rippleColor = buttonBackgroundRippleColor
+            floatingActionButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, buttonBackgroundColor))
+            floatingActionButton.rippleColor = ContextCompat.getColor(context,buttonBackgroundRippleColor)
             floatingActionButton.isEnabled = true
             floatingActionButton.isClickable = true
 
+            setLabelColors(textLabelColor, cardBackgroundColor)
 
-            setLabelBackgroundColor(textLabelColor, cardBackgroundColor)
-
-            floatingActionButton.setOnTouchListener({ view, motionEvent ->
-                onTouchFSM(view, motionEvent)
-            })
-
-            cardView.setOnTouchListener({ view, motionEvent ->
-                onTouchFSM(view, motionEvent)
-            })
+//            setTouchListeners()
 
             typedArray.recycle()
 
@@ -71,7 +68,12 @@ class FloSubMenu @JvmOverloads constructor(
         }
     }
 
-    private fun setLabelBackgroundColor(textColor:Int, backgroundColor:Int)
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        setTouchListeners()
+    }
+
+    private fun setLabelColors(textColor:Int, backgroundColor:Int)
     {
         textView.setTextColor(textColor)
         cardView.setCardBackgroundColor(backgroundColor)
@@ -80,7 +82,7 @@ class FloSubMenu @JvmOverloads constructor(
     private fun onTouchFSM(view: View, motionEvent: MotionEvent) : Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                setLabelBackgroundColor(textLabelColorPressed, cardBackgroundPressedColor)
+                setLabelColors(textLabelColorPressed, cardBackgroundPressedColor)
                 view.isPressed = true
             }
             MotionEvent.ACTION_UP -> {
@@ -88,7 +90,7 @@ class FloSubMenu @JvmOverloads constructor(
                     view.performClick()
                 }
                 view.isPressed = false
-                setLabelBackgroundColor(textLabelColor, cardBackgroundColor)
+                setLabelColors(textLabelColor, cardBackgroundColor)
             }
             MotionEvent.ACTION_CANCEL -> {
                 view.isPressed = false
@@ -102,6 +104,48 @@ class FloSubMenu @JvmOverloads constructor(
         }
 
         return true
+    }
+
+    private fun setTouchListeners() {
+
+        floatingActionButton.setOnTouchListener({ view, motionEvent ->
+            onTouchFSM(view, motionEvent)
+        })
+
+        cardView.setOnTouchListener({ view, motionEvent ->
+            onTouchFSM(view, motionEvent)
+        })
+    }
+
+    fun setProperties(properties:SubMenuProperties) {
+        if (properties.icon != 0) {
+            fabDrawable = properties.icon
+            floatingActionButton.setImageDrawable(ContextCompat.getDrawable(context, fabDrawable))
+        }
+        if (properties.labelText != "") {
+            textView.text = properties.labelText
+        }
+        if (properties.buttonColor != 0) {
+            buttonBackgroundColor = properties.buttonColor
+            floatingActionButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, buttonBackgroundColor))
+        }
+        if (properties.buttonRippleColor != 0) {
+            buttonBackgroundRippleColor = properties.buttonRippleColor
+            floatingActionButton.rippleColor = ContextCompat.getColor(context, buttonBackgroundRippleColor)
+        }
+        if (properties.labelTextColor != 0) {
+            textLabelColor = ContextCompat.getColor(context, properties.labelTextColor)
+        }
+        if (properties.labelTextColorPressed != 0) {
+            textLabelColorPressed = ContextCompat.getColor(context, properties.labelTextColorPressed)
+        }
+       if (properties.labelBackgroundColor != 0) {
+            cardBackgroundColor = ContextCompat.getColor(context, properties.labelBackgroundColor)
+        }
+        if (properties.labelBackgroundColorPressed != 0) {
+            cardBackgroundPressedColor = ContextCompat.getColor(context, properties.labelBackgroundColorPressed)
+        }
+        setLabelColors(textLabelColor, cardBackgroundColor)
     }
 
     override fun performClick(): Boolean {
