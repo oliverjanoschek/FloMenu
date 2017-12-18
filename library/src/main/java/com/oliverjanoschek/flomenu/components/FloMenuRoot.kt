@@ -14,7 +14,6 @@ import android.widget.LinearLayout
 import com.oliverjanoschek.flomenu.R
 import kotlinx.android.synthetic.main.flo_menu_root.view.*
 
-
 /**
  * Created by Oliver Janoschek on 12/12/2017.
  */
@@ -32,9 +31,6 @@ context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     private var labelTextColor = ContextCompat.getColor(context, R.color.colorTextLabel)
     private var labelText = context.getText(R.string.flo_sub_menu_label_default_text)
     private var labelTextColorPressed = ContextCompat.getColor(context, R.color.colorTextLabelPressed)
-
-    private var animationIn: Animation = AnimationUtils.loadAnimation(context, R.anim.scale_in)
-    private var animationOut: Animation = AnimationUtils.loadAnimation(context, R.anim.scale_out)
 
     private var animationToggleIn: Animation = AnimationUtils.loadAnimation(context, R.anim.toggle_in)
     private var animationToggleOut: Animation = AnimationUtils.loadAnimation(context, R.anim.toggle_out)
@@ -61,6 +57,7 @@ context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
             floatingActionButtonRoot.isEnabled = true
             floatingActionButtonRoot.isClickable = true
+            floatingActionButtonRoot.isLongClickable = false
 
             floatingActionButtonRoot.setOnTouchListener({ view, motionEvent ->
                 onTouchRoot(view, motionEvent)
@@ -114,7 +111,7 @@ context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         floatingActionButtonRoot.setImageDrawable(ContextCompat.getDrawable(context, fabDrawable))
     }
 
-    fun toggleLabel(toggle:Boolean) {
+    fun toggleState(toggle:Boolean) {
 
         animationToggleIn.setAnimationListener( object : Animation.AnimationListener {
             override fun onAnimationRepeat(animationToggle: Animation?) {
@@ -136,32 +133,12 @@ context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
         floatingActionButtonRoot.startAnimation(animationToggleIn)
 
-        val animation = when (toggle) {
-            true -> {
-                animationIn
-            }
-            false -> {
-                animationOut
-            }
-        }
-
-        animation.repeatCount = 1
-
         if (!toggle) {
-            animation.setAnimationListener( object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-                override fun onAnimationStart(animation: Animation?) {
-                }
-                override fun onAnimationEnd(animation: Animation?) {
-                    cardViewRoot.visibility = View.GONE
-                }
-            })
+            cardViewRoot.visibility = View.GONE
         } else {
             cardViewRoot.visibility = View.VISIBLE
         }
 
-        cardViewRoot.startAnimation(animation)
     }
 
     private fun setLabelBackgroundColor(textColor:Int, backgroundColor:Int)

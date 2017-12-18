@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -135,20 +136,24 @@ class FloMenu @JvmOverloads constructor(
                 view.floatingActionButtonRoot.setOnClickListener {
                     onItemClick()
                     toggleFloMenu()
+                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? ROOT MENU BUTTON" )
                 }
                 view.cardViewRoot.setOnClickListener {
                     onItemClick()
                     closeFloMenu()
+                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? ROOT MENU LABEL" )
                 }
             }
             is FloSubMenu -> {
                 view.floatingActionButton.setOnClickListener {
                     onItemClick()
                     closeFloMenu()
+                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? $view" )
                 }
                 view.cardView.setOnClickListener {
                     onItemClick()
                     closeFloMenu()
+                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? $view" )
                 }
             }
             else -> {}
@@ -167,14 +172,17 @@ class FloMenu @JvmOverloads constructor(
     }
 
     private fun openFloMenu() {
-        toggle = true
-        FMR?.toggleLabel(true)
+
         FBG?.isClickable = true
         for ( fsm in getAllFSM()) {
             contentView.getChildAt(fsm).isClickable = true
         }
         setMenuVisibility(View.VISIBLE)
         setMenuAnimation(true)
+
+        FMR?.toggleState(true)
+
+        toggle = true
     }
 
     private fun closeFloMenu(isInstant:Boolean = false) {
@@ -182,20 +190,21 @@ class FloMenu @JvmOverloads constructor(
         if (!toggle) return
 
         FBG?.isClickable = false
-        FMR?.toggleLabel(false)
         for ( fsm in getAllFSM()) {
             contentView.getChildAt(fsm).isClickable = false
         }
-        toggle = when (isInstant) {
+        when (isInstant) {
             true -> {
                 setMenuVisibility(View.GONE)
-                false
             }
             false -> {
                 setMenuAnimation(false)
-                false
             }
         }
+
+        FMR?.toggleState(false)
+
+        toggle = false
     }
 
     private fun setMenuVisibility(value:Int) {

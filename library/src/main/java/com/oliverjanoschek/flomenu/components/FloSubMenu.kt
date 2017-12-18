@@ -3,17 +3,14 @@ package com.oliverjanoschek.flomenu.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Canvas
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import com.oliverjanoschek.flomenu.R
 import com.oliverjanoschek.flomenu.model.SubMenuProperties
-import com.oliverjanoschek.flomenu.util.TAG
 import kotlinx.android.synthetic.main.flo_sub_menu.view.*
 
 @SuppressLint("ResourceType")
@@ -57,8 +54,6 @@ class FloSubMenu @JvmOverloads constructor(
             floatingActionButton.isClickable = true
 
             setLabelColors(textLabelColor, cardBackgroundColor)
-
-//            setTouchListeners()
 
             typedArray.recycle()
 

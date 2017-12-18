@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:duplicateParentState="true"
+        android:longClickable="false"
         app:cardCornerRadius="3dp"
         app:cardElevation="2dp"
         app:cardMaxElevation="2dp"
@@ -31,6 +32,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:longClickable="false"
             android:shadowRadius="0"
             android:text="@string/flo_sub_menu_label_default_text"
             android:textStyle="bold" />
@@ -44,6 +46,7 @@
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
+        android:longClickable="false"
         app:elevation="8dp"
         app:fabSize="normal" />
 </LinearLayout>
