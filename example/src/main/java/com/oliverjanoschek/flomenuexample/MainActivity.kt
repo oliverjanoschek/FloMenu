@@ -2,6 +2,7 @@ package com.oliverjanoschek.flomenuexample
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.oliverjanoschek.flomenu.model.SubMenuProperties
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast

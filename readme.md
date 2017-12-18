@@ -23,7 +23,7 @@ and:
 
 ```gradle
 dependencies {
-    implementation 'com.github.jitpack:android-example:1.0.2'
+    implementation 'com.github.jitpack:android-example:1.0.3'
 }
 ```
 
@@ -201,4 +201,4 @@ See also the list of [contributors](https://github.com/oliverjanoschek/FloMenu/c
 
 ## License
 
-This project is licensed under the GPL v3.0 License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GPL v3.0 License - see the [license.md](license.md) file for details
