@@ -13,6 +13,10 @@ import com.oliverjanoschek.flomenu.R
 import com.oliverjanoschek.flomenu.model.SubMenuProperties
 import kotlinx.android.synthetic.main.flo_sub_menu.view.*
 
+/**
+* Created by Oliver Janoschek on 12/12/2017.
+*/
+
 @SuppressLint("ResourceType")
 class FloSubMenu @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -27,6 +31,7 @@ class FloSubMenu @JvmOverloads constructor(
     private var textLabelColorPressed = ContextCompat.getColor(context, R.color.colorTextLabelPressed)
 
     init {
+
         LayoutInflater.from(context)
                 .inflate(R.layout.flo_sub_menu, this, true)
 
@@ -61,20 +66,25 @@ class FloSubMenu @JvmOverloads constructor(
                 visibility = View.GONE
             }
         }
+
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+
         super.onLayout(changed, l, t, r, b)
         setTouchListeners()
+
     }
 
-    private fun setLabelColors(textColor:Int, backgroundColor:Int)
-    {
+    private fun setLabelColors(textColor:Int, backgroundColor:Int) {
+
         textView.setTextColor(textColor)
         cardView.setCardBackgroundColor(backgroundColor)
+
     }
 
     private fun onTouchFSM(view: View, motionEvent: MotionEvent) : Boolean {
+
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 setLabelColors(textLabelColorPressed, cardBackgroundPressedColor)
@@ -99,6 +109,7 @@ class FloSubMenu @JvmOverloads constructor(
         }
 
         return true
+
     }
 
     private fun setTouchListeners() {
@@ -110,9 +121,11 @@ class FloSubMenu @JvmOverloads constructor(
         cardView.setOnTouchListener({ view, motionEvent ->
             onTouchFSM(view, motionEvent)
         })
+
     }
 
     fun setProperties(properties:SubMenuProperties) {
+
         if (properties.icon != 0) {
             fabDrawable = properties.icon
             floatingActionButton.setImageDrawable(ContextCompat.getDrawable(context, fabDrawable))
@@ -141,9 +154,11 @@ class FloSubMenu @JvmOverloads constructor(
             cardBackgroundPressedColor = ContextCompat.getColor(context, properties.labelBackgroundColorPressed)
         }
         setLabelColors(textLabelColor, cardBackgroundColor)
+
     }
 
     override fun performClick(): Boolean {
+
         // Calls the super implementation, which generates an AccessibilityEvent
         // and calls the onClick() listener on the view, if any
         super.performClick()
@@ -151,5 +166,6 @@ class FloSubMenu @JvmOverloads constructor(
         // Handle the action for the custom click here
 
         return true
+
     }
 }

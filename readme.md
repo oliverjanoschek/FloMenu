@@ -23,7 +23,7 @@ and:
 
 ```gradle
 dependencies {
-    implementation 'com.github.jitpack:android-example:1.0.3'
+    implementation 'com.github.jitpack:android-example:1.1.0'
 }
 ```
 
@@ -49,93 +49,145 @@ To add the base menu containing the main FAB and a background that fades in & ou
 
 There are two very straightforward, simple ways to add sub menu FABs to FloMenu. You can either choose to add submenu items in your layout XMLs and add onClickListeners afterwards, or simply add them in one step in code. 
 
-This library uses lambda functions to make it easy to set click listeners for all FABs in the menu.
+This library uses[lambda functions](https://kotlinlang.org/docs/reference/lambdas.html)to make it easy to set click listeners for all FABs in the menu.
 
 #### via XML
 
 ##### 1. To add sub menu items to FloMenu via XML add the FloSubMenu custom view like this:
 
 ```XML
-    <com.oliverjanoschek.flomenu.components.FloMenu
-        android:id="@+id/FM"
+<com.oliverjanoschek.flomenu.components.FloMenu
+    android:id="@+id/FM"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+    
+    <com.oliverjanoschek.flomenu.components.FloSubMenu
+        android:id="@+id/FSM_0"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:clickable="false"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:focusable="true" />
         
-        <com.oliverjanoschek.flomenu.components.FloSubMenu
-            android:id="@+id/FSM_0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:focusable="true />
-            
-    </com.oliverjanoschek.flomenu.components.FloMenu>
+</com.oliverjanoschek.flomenu.components.FloMenu>
 ```
 ##### 2. Add OnClickListeners
 
-If you chose to add the sub menu items via layout XMLs, you will need to apply a onClickListener. FloMenu provides an efficient lambda style function to pass on the listener
+If you chose to add the sub menu items via layout XMLs, you will need to apply a onClickListener. FloMenu provides an efficient[lambda style](https://kotlinlang.org/docs/reference/lambdas.html)function to pass on the listener
 
 ```Kotlin
-       FM.createClickListener(FM.rootButton, {
-            when (FM.toggle) {
-                true -> { /* Do stuff */ }
-                false -> {/* Do even more stuff! */ }
-            }
-        })
+   FM.createClickListener(FM.rootButton, {
+        when (FM.toggle) {
+            true -> { /* Do stuff */ }
+            false -> {/* Do even more stuff! */ }
+        }
+    })
 
-        FM.createClickListener(FSM_0, {
-          /* Do submenu stuff */
-        })
-        FM.createClickListener(FSM_1, {
-          /* Do submenu stuff */
-        })
-        FM.createClickListener(FSM_2, {
-          /* Do submenu stuff */
-        })
+    FM.createClickListener(FSM_0, {
+      /* Do submenu stuff */
+    })
+    FM.createClickListener(FSM_1, {
+      /* Do submenu stuff */
+    })
+    FM.createClickListener(FSM_2, {
+      /* Do submenu stuff */
+    })
 ```
 
 Both rootButton and toggle are public properties and enable easy access to the root FAB button as well as the current state of the menu
+
+### Custom attributes
+
+FloMenu's custom components offer a few attributes to style and customise your menu:
+
+```XML
+    <com.oliverjanoschek.flomenu.components.FloMenu
+    android:id="@+id/FM"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:M_color_button_background="@color/colorAccent"
+    app:M_color_button_background_ripple="@color/colorAccentPressed"
+    app:M_color_label_background="@color/colorTextLabelBackground"
+    app:M_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+    app:M_color_text_label="@color/colorTextLabel"
+    app:M_color_text_label_pressed="@color/colorTextLabelPressed"
+    app:M_drawable="@drawable/ic_action_default"
+    app:M_drawable_toggled="@drawable/ic_action_add"
+    app:M_text_label="FloMenu is awesome">
+
+    <com.oliverjanoschek.flomenu.components.FloSubMenu
+        android:id="@+id/FSM_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:focusable="true"
+        app:S_color_button_background="@color/colorPrimaryDark"
+        app:S_color_button_background_ripple="@color/colorButtonRippleLight"
+        app:S_color_label_background="@color/colorTextLabelBackground"
+        app:S_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
+        app:S_color_text_label="@color/colorTextLabel"
+        app:S_color_text_label_pressed="@color/colorTextLabelPressed"
+        app:S_drawable="?attr/actionModeCutDrawable"
+        app:S_text_label="@android:string/cut" />
+        
+</com.oliverjanoschek.flomenu.components.FloMenu>
+```
+
+see the example here to get a more in-depth overview: [Example XML Layout](https://github.com/oliverjanoschek/FloMenu/blob/master/example/src/main/res/layout/activity_main.xml)
 
 #### Via code
 
 ##### 1. Create a List of type \<SubMenuProperties\> with all your needed sub menu FABs
 ```Kotlin
-    val fsmList = listOf(
-            SubMenuProperties(
-                    R.drawable.abc_ic_menu_cut_mtrl_alpha,
-                    R.color.colorAccent,
-                    R.color.colorButtonRippleLight,
-                    resources.getString(android.R.string.cut),
-                    R.color.colorTextLabel,
-                    R.color.colorTextLabelPressed,
-                    R.color.colorTextLabelBackground,
-                    R.color.colorTextLabelBackgroundPressed,
-                    { toast("SUB MENU 1 CLICKED!!!")}),
-            SubMenuProperties(
-                    R.drawable.abc_ic_menu_copy_mtrl_am_alpha,
-                    R.color.colorPrimary,
-                    R.color.colorButtonRippleDark,
-                    resources.getString(android.R.string.copy),
-                    R.color.colorTextLabel,
-                    R.color.colorTextLabelPressed,
-                    R.color.colorTextLabelBackground,
-                    R.color.colorTextLabelBackgroundPressed,
-                    {toast("SUB MENU 2 CLICKED!!!")}),
-            SubMenuProperties(
-                    R.drawable.abc_ic_menu_paste_mtrl_am_alpha,
-                    R.color.colorAccentPressed,
-                    R.color.colorAccent,
-                    resources.getString(android.R.string.paste),
-                    R.color.colorTextLabelBackground,
-                    R.color.colorTextLabelBackgroundPressed,
-                    R.color.colorTextLabel,
-                    R.color.colorTextLabelPressed,
-                    {toast("SUB MENU 3 CLICKED!!!")})
-            )
+val fsmList = listOf(
+    SubMenuProperties(
+        R.drawable.abc_ic_menu_cut_mtrl_alpha,
+        R.color.colorAccent,
+        R.color.colorButtonRippleLight,
+        resources.getString(android.R.string.cut),
+        R.color.colorTextLabel,
+        R.color.colorTextLabelPressed,
+        R.color.colorTextLabelBackground,
+        R.color.colorTextLabelBackgroundPressed,
+        {
+            //In-Line lambda function
+            toast("SUB MENU 1 CLICKED!!!")
+        }),
+    SubMenuProperties(
+        R.drawable.abc_ic_menu_copy_mtrl_am_alpha,
+        R.color.colorPrimary,
+        R.color.colorButtonRippleDark,
+        resources.getString(android.R.string.copy),
+        R.color.colorTextLabel,
+        R.color.colorTextLabelPressed,
+        R.color.colorTextLabelBackground,
+        R.color.colorTextLabelBackgroundPressed,
+        {
+            //In-Line lambda function
+            toast("SUB MENU 2 CLICKED!!!")
+        }),
+    SubMenuProperties(
+        R.drawable.abc_ic_menu_paste_mtrl_am_alpha,
+        R.color.colorAccentPressed,
+        R.color.colorAccent,
+        resources.getString(android.R.string.paste),
+        R.color.colorTextLabelBackground,
+        R.color.colorTextLabelBackgroundPressed,
+        R.color.colorTextLabel,
+        R.color.colorTextLabelPressed,
+        //call to external function passing it as a lambda
+        OnSubMenu3Clicked()
+    )
+)
 ```
 
 #### 2. Pass the list to FloMenu's createSubMenu() method
@@ -144,49 +196,42 @@ Both rootButton and toggle are public properties and enable easy access to the r
     FM.createSubMenu(fsmList)
 ```
 
-### Custom attributes
+#### 3. Setting values in runtime
 
-FloMenu's custom components offer a few attributes to style and customise your menu:
+To set the individual properties of the Menu Root FAB use these simple methods
 
-```XML
-        <com.oliverjanoschek.flomenu.components.FloMenu
-        android:id="@+id/FM"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:M_color_button_background="@color/colorAccent"
-        app:M_color_button_background_ripple="@color/colorAccentPressed"
-        app:M_color_label_background="@color/colorTextLabelBackground"
-        app:M_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
-        app:M_color_text_label="@color/colorTextLabel"
-        app:M_color_text_label_pressed="@color/colorTextLabelPressed"
-        app:M_drawable="@drawable/ic_action_default"
-        app:M_drawable_toggled="@drawable/ic_action_add"
-        app:M_text_label="FloMenu is awesome">
+* Icons:
 
-        <com.oliverjanoschek.flomenu.components.FloSubMenu
-            android:id="@+id/FSM_0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:focusable="true"
-            app:S_color_button_background="@color/colorPrimaryDark"
-            app:S_color_button_background_ripple="@color/colorButtonRippleLight"
-            app:S_color_label_background="@color/colorTextLabelBackground"
-            app:S_color_label_background_pressed="@color/colorTextLabelBackgroundPressed"
-            app:S_color_text_label="@color/colorTextLabel"
-            app:S_color_text_label_pressed="@color/colorTextLabelPressed"
-            app:S_drawable="?attr/actionModeCutDrawable"
-            app:S_text_label="@android:string/cut" />
-            
-    </com.oliverjanoschek.flomenu.components.FloMenu>
+```Kotlin
+    FM.setRootButtonIcons(R.drawable.ic_action_default, R.drawable.ic_action_add)
 ```
+* FAB Background Color:
+```Kotlin
+    FM.setRootButtonColors(
+        R.color.colorAccent,
+        R.color.colorButtonRippleLight)
+```
+* Label Text:
+```Kotlin
+    FM.setRootButtonText("FloMenu is awesome")
+```
+* Label Text and label background color:
+```Kotlin
+    FM.setRootButtonLabelColors(
+        R.color.colorTextLabel,
+        R.color.colorTextLabelBackground,
+        R.color.colorTextLabelPressed,
+        R.color.colorTextLabelBackgroundPressed)
+```
+* Menu background color:
+```Kotlin
+    FM.setMenuBGColor(R.color.colorAccent)
 
-see the example here to get a more indepth overview: [Example XML Layout](https://github.com/oliverjanoschek/FloMenu/blob/master/example/src/main/res/layout/activity_main.xml)
+```
+* Menu background alpha: 
+```Kotlin
+    FM.setMenuBGAlpha(0.3f)
+```
 
 ## Built With
 

@@ -7,4 +7,5 @@
     <string name="sub_style_1">Sub Button Style Alternative</string>
     <string name="sub_style_2">Sub Button Style Default</string>
     <string name="create_new_menu_1">Create New FAB Menu</string>
+    <string name="create_new_menu_2">Restore Default Menu</string>
 </resources>
