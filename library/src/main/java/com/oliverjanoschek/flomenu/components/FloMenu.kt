@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -16,6 +15,10 @@ import kotlinx.android.synthetic.main.flo_menu.view.*
 import kotlinx.android.synthetic.main.flo_menu_root.view.*
 import kotlinx.android.synthetic.main.flo_sub_menu.view.*
 
+/**
+* Created by Oliver Janoschek on 12/12/2017.
+*/
+
 class FloMenu @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
@@ -23,38 +26,43 @@ class FloMenu @JvmOverloads constructor(
     var toggle = false
         private set
 
+    private var bgAlpha = 0.9f
+
     init {
+
         LayoutInflater.from(context).inflate(R.layout.flo_menu, this, true)
         closeFloMenu(true)
 
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it,
                     R.styleable.FloMenu, 0, 0)
-            
-            val buttonBackgroundColor = typedArray.getColor(R.styleable.FloMenu_M_color_button_background, ContextCompat.getColor(context, R.color.colorAccent))
-            val buttonBackgroundRippleColor = typedArray.getColor(R.styleable.FloMenu_M_color_button_background_ripple, buttonBackgroundColor)
 
-            val textLabel = typedArray.getText(R.styleable.FloMenu_M_text_label) ?: context.getText(R.string.flo_sub_menu_label_default_text)
-            val textLabelColor = typedArray.getColor(R.styleable.FloMenu_M_color_text_label, ContextCompat.getColor(context, R.color.colorTextLabel))
-            val textLabelColorPressed = typedArray.getColor(R.styleable.FloMenu_M_color_text_label, ContextCompat.getColor(context,R.color.colorTextLabelPressed))
+            val buttonBackgroundColor = typedArray.getResourceId(R.styleable.FloMenu_M_color_button_background, R.color.colorAccent)
 
-            val cardBackgroundColor = typedArray.getColor(R.styleable.FloMenu_M_color_label_background, ContextCompat.getColor(context, R.color.colorTextLabelBackground))
-            val cardBackgroundPressedColor = typedArray.getColor(R.styleable.FloMenu_M_color_label_background_pressed, ContextCompat.getColor(context, R.color.colorTextLabelBackgroundPressed))
+            setRootButtonColors(
+                    buttonBackgroundColor,
+                    typedArray.getResourceId(R.styleable.FloMenu_M_color_button_background_ripple, buttonBackgroundColor)
+            )
 
-            val fabDrawable = typedArray.getResourceId(R.styleable.FloMenu_M_drawable, R.drawable.ic_action_default)
-            val fabDrawableToggled = typedArray.getResourceId(R.styleable.FloMenu_M_drawable_toggled, R.drawable.ic_action_default)
+            setRootButtonText(typedArray.getText(R.styleable.FloMenu_M_text_label) ?: context.getText(R.string.flo_sub_menu_label_default_text))
 
-            val menuBackgroundColor = typedArray.getColor(R.styleable.FloMenu_M_color_menu_background,ContextCompat.getColor(context, R.color.colorPrimary))
+            setRootButtonLabelColors(
+                    typedArray.getResourceId(R.styleable.FloMenu_M_color_text_label, R.color.colorTextLabel),
+                    typedArray.getResourceId(R.styleable.FloMenu_M_color_label_background, R.color.colorTextLabelBackground),
+                    typedArray.getResourceId(R.styleable.FloMenu_M_color_text_label_pressed, R.color.colorTextLabelPressed),
+                    typedArray.getResourceId(R.styleable.FloMenu_M_color_label_background_pressed, R.color.colorTextLabelBackgroundPressed)
+            )
 
-            val menuBackgroundAlpha = typedArray.getFloat(R.styleable.FloMenu_M_color_menu_alpha, 0.9f)
+            setRootButtonIcons(
+                    typedArray.getResourceId(R.styleable.FloMenu_M_drawable, R.drawable.ic_action_default),
+                    typedArray.getResourceId(R.styleable.FloMenu_M_drawable_toggled, R.drawable.ic_action_add)
+            )
 
-            FBG.backgroundTintList = ColorStateList.valueOf(menuBackgroundColor)
+            setMenuBGColor(typedArray.getResourceId(R.styleable.FloMenu_M_color_menu_background,R.color.colorPrimary))
 
-            FBG.alpha = menuBackgroundAlpha
+            setMenuBGAlpha(typedArray.getFloat(R.styleable.FloMenu_M_color_menu_alpha, 0.9f))
 
             typedArray.recycle()
-
-            FMR.setAttributesFromMenu(buttonBackgroundColor, buttonBackgroundRippleColor, fabDrawable, fabDrawableToggled ,textLabel, textLabelColor, textLabelColorPressed, cardBackgroundColor, cardBackgroundPressedColor)
         }
 
         FBG.setOnClickListener {
@@ -64,22 +72,26 @@ class FloMenu @JvmOverloads constructor(
         if(!isInEditMode) {
             FBG.visibility = View.GONE
         }
+
     }
 
     private var contentView = findViewById<LinearLayout>(R.id.FloSubMenuRoot)
 
     override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
+
         if ( contentView == null ){
             super.addView(child, index, params)
         } else {
             contentView?.addView(child, index, params)
         }
+
     }
 
     val rootButton:View = FMR
 
     private fun getAllFSM() : List<Int>
     {
+
         return if (contentView != null )
         {
             var result : List<Int> = ArrayList()
@@ -92,34 +104,65 @@ class FloMenu @JvmOverloads constructor(
         else {
             ArrayList()
         }
+
     }
 
-    fun setRootButtonStyle(drawable:Int = 0, drawableToggled:Int = 0) {
-        if ( drawable != 0 && drawableToggled != 0) {
-            FMR.setRootButtonStyle(drawable, drawableToggled)
+    fun setRootButtonIcons(drawable:Int, drawableToggled:Int = 0) {
+
+        if (drawable != 0 && drawableToggled != 0) {
+            FMR.setRootButtonIcons(drawable, drawableToggled)
         }
+
     }
 
-    fun setMenuBGAlpha(alpha:Float = -1.0f) {
-        if ( alpha != -1.0f ) {
-            FBG.alpha = alpha
-            when (toggle) {
-                false -> {
+    fun setRootButtonColors(color:Int, rippleColor:Int = 0) {
 
-                }
-                true -> {
-                    FBG.visibility = View.GONE
-                }
-            }
+        if (color != 0 && rippleColor != 0) {
+            FMR.setRootButtonColors(color, rippleColor)
         }
+
+    }
+
+    fun setRootButtonLabelColors(textColor:Int, labelColor:Int, textColorPressed:Int = 0, labelColorPressed:Int = 0) {
+
+        if (textColor != 0 && labelColor != 0) {
+            FMR.setLabelColors(FloMenuRoot.MODE_UPDATE, textColor, labelColor, textColorPressed, labelColorPressed)
+        }
+
+    }
+
+    fun setRootButtonText(text:CharSequence) {
+
+        if (text != "") {
+            FMR.setLabelText(text)
+        }
+
+    }
+
+    fun setMenuBGColor(color:Int = 0) {
+
+        if ( color != 0 ) {
+            FBG.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context,color))
+        }
+
+    }
+
+    fun setMenuBGAlpha(newAlpha:Float = -1.0f) {
+
+        if ( newAlpha != -1.0f ) {
+            bgAlpha = newAlpha
+        }
+
     }
 
     fun createSubMenu(list : List<SubMenuProperties>) {
+
         contentView.removeAllViews()
 
         for (submenu in list) {
             val fsm = FloSubMenu(context)
             fsm.clipChildren = false
+            fsm.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
 
             fsm.setProperties(submenu)
 
@@ -128,39 +171,39 @@ class FloMenu @JvmOverloads constructor(
             contentView.addView(fsm)
             fsm.visibility = View.GONE
         }
+
     }
 
     fun createClickListener(view:View, onItemClick: () -> Unit ) {
+
         when (view) {
             is FloMenuRoot -> {
                 view.floatingActionButtonRoot.setOnClickListener {
                     onItemClick()
                     toggleFloMenu()
-                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? ROOT MENU BUTTON" )
                 }
                 view.cardViewRoot.setOnClickListener {
                     onItemClick()
                     closeFloMenu()
-                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? ROOT MENU LABEL" )
                 }
             }
             is FloSubMenu -> {
                 view.floatingActionButton.setOnClickListener {
                     onItemClick()
                     closeFloMenu()
-                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? $view" )
                 }
                 view.cardView.setOnClickListener {
                     onItemClick()
                     closeFloMenu()
-                    Log.d(com.oliverjanoschek.flomenu.util.TAG, "what is this? $view" )
                 }
             }
             else -> {}
         }
+
     }
 
     private fun toggleFloMenu() {
+
         when (toggle) {
             false -> {
                 openFloMenu()
@@ -169,11 +212,13 @@ class FloMenu @JvmOverloads constructor(
                 closeFloMenu()
             }
         }
+
     }
 
     private fun openFloMenu() {
 
         FBG?.isClickable = true
+        FBG.alpha = bgAlpha
         for ( fsm in getAllFSM()) {
             contentView.getChildAt(fsm).isClickable = true
         }
@@ -183,6 +228,7 @@ class FloMenu @JvmOverloads constructor(
         FMR?.toggleState(true)
 
         toggle = true
+
     }
 
     private fun closeFloMenu(isInstant:Boolean = false) {
@@ -190,6 +236,8 @@ class FloMenu @JvmOverloads constructor(
         if (!toggle) return
 
         FBG?.isClickable = false
+        FBG.alpha = 0.0f
+
         for ( fsm in getAllFSM()) {
             contentView.getChildAt(fsm).isClickable = false
         }
@@ -205,17 +253,21 @@ class FloMenu @JvmOverloads constructor(
         FMR?.toggleState(false)
 
         toggle = false
+
     }
 
     private fun setMenuVisibility(value:Int) {
+
         for ( fsm in getAllFSM()) {
             contentView.getChildAt(fsm).visibility = value
         }
 
         FBG.visibility = value
+
     }
 
     private fun setMenuAnimation(isFadeInAnimation:Boolean) {
+
         if (!toggle && !isFadeInAnimation) return
 
         val bgAnimation : Animation = if (isFadeInAnimation) { AnimationUtils.loadAnimation(context, R.anim.fade_in) } else { AnimationUtils.loadAnimation(context, R.anim.fade_out) }
@@ -244,5 +296,6 @@ class FloMenu @JvmOverloads constructor(
         }
 
         FBG.startAnimation(bgAnimation)
+
     }
 }
